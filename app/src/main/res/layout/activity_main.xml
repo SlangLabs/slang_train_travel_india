@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <include layout="@layout/branding_layout" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/main_branding"
+        android:text="Voice Powered Train Search Demo"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="16dp"/>
+
+    <TextView
+        android:id="@+id/main_source_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Source"
+        android:layout_marginTop="120dp"
+        android:layout_marginLeft="16dp"/>
+
+    <EditText
+        android:id="@+id/main_source_edit"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/main_source_tv"
+        android:layout_alignLeft="@id/main_source_tv"
+        android:hint="Enter Source"/>
+
+    <TextView
+        android:id="@+id/main_dest_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Destination"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="120dp"
+        android:layout_marginRight="100dp"/>
+
+    <EditText
+        android:id="@+id/main_dest_edit"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/main_dest_tv"
+        android:layout_alignLeft="@id/main_dest_tv"
+        android:hint="Enter Destination"/>
+
+    <TextView
+        android:id="@+id/main_start_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Journey Date"
+        android:layout_marginTop="240dp"
+        android:layout_marginLeft="16dp"/>
+
+    <EditText
+        android:id="@+id/main_start_edit"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/main_start_tv"
+        android:layout_alignLeft="@id/main_start_tv"
+        android:hint="dd-mm-yyyy" />
+
+    <RelativeLayout
+        android:id="@+id/search_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/main_start_edit"
+        android:layout_marginTop="60dp">
+        <Button
+            android:id="@+id/main_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Search"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/main_help_english"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/search_layout"
+        android:orientation="vertical"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:padding="4dp"
+        android:background="@drawable/background_box"
+        android:layout_marginTop="28dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="You can try saying"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="&quot;Show trains from Bangalore to Chennai&quot;"
+            android:textSize="16sp"
+            android:textStyle="italic"
+            android:textColor="#a17249"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="&quot;Trains leaving from Delhi to Mumbai on 12th July&quot;"
+            android:textSize="16sp"
+            android:textStyle="italic"
+            android:textColor="#a17249"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="&quot;Can you show me trains from Chennai on 1st August?&quot;"
+            android:textSize="16sp"
+            android:textStyle="italic"
+            android:textColor="#a17249"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/main_help_hindi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/search_layout"
+        android:orientation="vertical"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:padding="4dp"
+        android:visibility="gone"
+        android:background="@drawable/background_box"
+        android:layout_marginTop="28dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="आप यह कहते हुए कोशिश कर सकते हैं"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="&quot;बैंगलोर से चेन्नई तक ट्रेने दिखाएँ&quot;"
+            android:textSize="16sp"
+            android:textStyle="italic"
+            android:textColor="#a17249"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="&quot;12 जुलाई को दिल्ली से मुंबई जाने वाली ट्रेनें दिखाएं&quot;"
+            android:textSize="16sp"
+            android:textStyle="italic"
+            android:textColor="#a17249"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="&quot;क्या आप मुझे 1 अगस्त को चेन्नई से ट्रेन दिखा सकते हैं?&quot;"
+            android:textSize="16sp"
+            android:textStyle="italic"
+            android:textColor="#a17249"/>
+    </LinearLayout>
+
+</RelativeLayout>

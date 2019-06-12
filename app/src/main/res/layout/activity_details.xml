@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DetailsActivity">
+
+    <include layout="@layout/branding_layout" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/main_branding"
+        android:text="Voice Powered Train Search Demo"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="16dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="120dp"
+        android:layout_marginRight="24dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/details_showing_trains"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Showing trains from"
+            android:textColor="#7f6244"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/details_showing_trains_cities"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Mumbai to Delhi"
+            android:textColor="#9e3623"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/details_showing_trains_dates"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="for 12-05-2019"
+            android:textColor="#c69f59"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/details_sort_trains"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="240dp"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:text="@string/wow_so_many_trains"
+        android:textColor="#4a2c2a"/>
+
+    <TextView
+        android:id="@+id/details_search_updated"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:layout_below="@+id/details_sort_trains"
+        android:visibility="gone"
+        android:textSize="16sp"
+        android:text="Your search query has been updated."/>
+
+    <LinearLayout
+        android:id="@+id/details_help_english"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/details_sort_trains"
+        android:orientation="vertical"
+        android:layout_marginTop="180dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:padding="4dp"
+        android:background="@drawable/background_box">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:text="You can try saying" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="&quot;Show trains leaving in the morning&quot;"
+        android:textSize="16sp"
+        android:textStyle="italic"
+        android:textColor="#a17249"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="&quot;Show trains between 9 AM to 1 PM&quot;"
+        android:textSize="16sp"
+        android:textStyle="italic"
+        android:textColor="#a17249"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="&quot;Sort by cheapest&quot;"
+        android:textSize="16sp"
+        android:textStyle="italic"
+        android:textColor="#a17249"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/details_help_hindi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/details_sort_trains"
+        android:orientation="vertical"
+        android:layout_marginTop="180dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:padding="4dp"
+        android:visibility="gone"
+        android:background="@drawable/background_box">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="आप यह कहते हुए कोशिश कर सकते हैं"
+            android:textSize="16sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="&quot;सुबह की गाड़ियों को दिखाओ&quot;"
+            android:textSize="16sp"
+            android:textStyle="italic"
+            android:textColor="#a17249"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="&quot;सुबह 9 बजे से दोपहर 1 बजे के बीच ट्रेन दिखाएं&quot;"
+            android:textSize="16sp"
+            android:textStyle="italic"
+            android:textColor="#a17249"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="&quot;सबसे सस्ता द्वारा छाँटें&quot;"
+            android:textSize="16sp"
+            android:textStyle="italic"
+            android:textColor="#a17249"/>
+    </LinearLayout>
+
+</RelativeLayout>

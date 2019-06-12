@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Slang Travel</string>
+    <string name="wow_so_many_trains">Wow… So many trains :)</string>
+    <string name="welcome_title">Wecome!</string>
+    <string name="contact_us">Have some feedback?</string>
+    <string name="description_text">Welcome to Slang\'s Voice Augmented eXperience for Search demo!\n\nThis app is to demo the voice capabilities of Slang and how app developers can build a smart context aware eXperience for their customers.\n\nWe hope you like it. If yes, let us know. If you don\'t, tell us but politely 😉\n\nThe Slang Team</string>
+    <string name="do_not_show">Don\'t show this again</string>
+    <string name="email_id"><u>42@slanglabs.in</u></string>
+    <string name="email_description_text">Loved it? Something broke? (We hope not)\n\nEnjoyed talking to Slang and can\’t wait to get more?\n\nIf you\’ve got thoughts, we\’re here to listen. Hit us up 🙂</string>
+</resources>
