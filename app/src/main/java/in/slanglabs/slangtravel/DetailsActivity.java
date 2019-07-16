@@ -32,8 +32,8 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details);
 
         Set<String> names = new ArraySet<>();
-        names.add(VoiceInterface.SlangTravelAction.INTENT_FILTER_TRAINS);
-        names.add(VoiceInterface.SlangTravelAction.INTENT_SORT_TRAIN);
+        names.add(SlangInterface.SlangTravelAction.INTENT_FILTER_TRAINS);
+        names.add(SlangInterface.SlangTravelAction.INTENT_SORT_TRAIN);
         SlangBuddy.getBuiltinUI().filterIntentsForDisplay(names);
 
         contactUs = findViewById(R.id.contact_us);

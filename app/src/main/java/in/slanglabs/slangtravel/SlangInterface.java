@@ -25,7 +25,7 @@ import in.slanglabs.platform.SlangSession;
 import in.slanglabs.platform.action.SlangIntentAction;
 import in.slanglabs.platform.prompt.SlangMessage;
 
-public class VoiceInterface {
+public class SlangInterface {
 
     private static String app_id = "set_your_buddy_id";
     private static String api_key = "set_your_api_key";
@@ -34,7 +34,7 @@ public class VoiceInterface {
 
     private static String source = "", destination = "", startDate = "", dateString = "", currentLocale = "en";
 
-    // To initialize Slang in your application, simply call VoiceInterface.init(context)
+    // To initialize Slang in your application, simply call SlangInterface.init(context)
     public static void init(Activity activity) {
         try {
             SlangBuddyOptions options = new SlangBuddyOptions.Builder()
@@ -69,6 +69,7 @@ public class VoiceInterface {
         if (shouldForceProdTier()) {
             config.put("internal.common.io.server_host", "infer.slanglabs.in");
             config.put("internal.common.io.analytics_server_host", "analytics.slanglabs.in");
+            config.put("internal.common.io.asr_server_host", "speech.slanglabs.in");
         }
         return config;
     }
@@ -97,7 +98,13 @@ public class VoiceInterface {
         public void onInitialized() {
             Log.d("BuddyListener", "Slang Initialised Successfully");
             try {
-                SlangBuddy.registerIntentAction("slang_help", null);
+                SlangBuddy.registerIntentAction("slang_help", new SlangIntentAction() {
+                    @Override
+                    public Status action(SlangIntent slangIntent, SlangSession slangSession) {
+                        slangIntent.getCompletionStatement().overrideAffirmative("Please try one of the example command shown on screen");
+                        return Status.SUCCESS;
+                    }
+                });
             } catch (SlangBuddy.InvalidIntentException e) {
                 e.printStackTrace();
             } catch (SlangBuddy.UninitializedUsageException e) {
@@ -455,7 +462,7 @@ public class VoiceInterface {
 
             if (promptToSpeak != null) {
                 intent.getCompletionStatement().overrideAffirmative(promptToSpeak);
-                VoiceInterface.startConversation(promptToSpeak, false);
+                SlangInterface.startConversation(promptToSpeak, false);
             } else {
                 searchCompleted = true;
 

@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        VoiceInterface.init(this);
+        SlangInterface.init(this);
 
         contactUs = findViewById(R.id.contact_us);
         contactUs.setOnClickListener(new View.OnClickListener() {
@@ -312,7 +312,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static void setHelpIntentsDisplay() {
         Set<String> names = new ArraySet<>();
-        names.add(VoiceInterface.SlangTravelAction.INTENT_SEARCH_TRAIN);
+        names.add(SlangInterface.SlangTravelAction.INTENT_SEARCH_TRAIN);
         SlangBuddy.getBuiltinUI().filterIntentsForDisplay(names);
     }
 }
