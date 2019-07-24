@@ -70,6 +70,7 @@ public class SlangInterface {
             config.put("internal.common.io.server_host", "infer.slanglabs.in");
             config.put("internal.common.io.analytics_server_host", "analytics.slanglabs.in");
             config.put("internal.common.io.asr_server_host", "speech.slanglabs.in");
+            config.put("internal.subsystems.asr.force_cloud_asr", true);
         }
         return config;
     }
@@ -346,7 +347,7 @@ public class SlangInterface {
                 } else {
                     if (filterDetails.range.equals("between")) {
                         if (!filterDetails.timeOne.isEmpty() && !filterDetails.timeTwo.isEmpty()) {
-                            SimpleDateFormat format = new SimpleDateFormat("hh:mm:ss");
+                            SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
                             SimpleDateFormat formatSlang = new SimpleDateFormat("h:mm a");
                             String timeOneString = "";
                             String timeTwoString = "";
