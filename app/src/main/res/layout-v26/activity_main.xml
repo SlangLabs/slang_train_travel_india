@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/main_branding"
-        android:text="Voice Powered Train Search Demo"
+        android:text="@string/voice_powered_train_search_demo"
         android:gravity="center"
         android:textSize="20sp"
         android:layout_marginLeft="16dp"
@@ -22,33 +22,35 @@
         android:id="@+id/main_source_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Source"
+        android:text="@string/source"
         android:layout_marginTop="120dp"
-        android:layout_marginLeft="16dp"/>
+        android:layout_marginStart="16dp"/>
 
     <EditText
         android:id="@+id/main_source_edit"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/main_source_tv"
-        android:layout_alignLeft="@id/main_source_tv"
-        android:hint="Enter Source"/>
+        android:layout_alignStart="@id/main_source_tv"
+        android:hint="@string/enter_source"
+        android:inputType=""
+        android:autofillHints="" />
 
     <TextView
         android:id="@+id/main_dest_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Destination"
-        android:layout_alignParentRight="true"
+        android:text="@string/destination"
+        android:layout_alignParentEnd="true"
         android:layout_marginTop="120dp"
-        android:layout_marginRight="100dp"/>
+        android:layout_marginEnd="100dp"/>
 
     <EditText
         android:id="@+id/main_dest_edit"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/main_dest_tv"
-        android:layout_alignLeft="@id/main_dest_tv"
+        android:layout_alignStart="@id/main_dest_tv"
         android:hint="@string/enter_destination"
         android:autofillHints=""
         android:inputType="" />
@@ -59,14 +61,14 @@
         android:layout_height="wrap_content"
         android:text="@string/journey_date"
         android:layout_marginTop="240dp"
-        android:layout_marginLeft="16dp"/>
+        android:layout_marginStart="16dp"/>
 
     <EditText
         android:id="@+id/main_start_edit"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/main_start_tv"
-        android:layout_alignLeft="@id/main_start_tv"
+        android:layout_alignStart="@id/main_start_tv"
         android:hint="@string/dd_mm_yyyy"
         android:autofillHints=""
         android:inputType="" />

@@ -10,11 +10,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Handler;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.util.ArraySet;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -28,9 +26,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.Calendar;
-import java.util.Set;
 
 import in.slanglabs.platform.SlangBuddy;
+
+import static in.slanglabs.slangtravel.AppTravelAction.resetCache;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
     private EditText source, destination, startDate;
     private TextView contactUs;
     private Button search;
-    private String showCity, showDate;
     private String locale;
     private SharedPreferences sharedPreferences;
 
@@ -143,18 +141,18 @@ public class MainActivity extends AppCompatActivity {
                 int mDay = c.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this,
-                    new DatePickerDialog.OnDateSetListener() {
+                        new DatePickerDialog.OnDateSetListener() {
 
-                        @Override
-                        public void onDateSet(DatePicker view, int year,
-                                              int monthOfYear, int dayOfMonth) {
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
 
-                            String dateText = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
+                                String dateText = dayOfMonth + "-" + (monthOfYear + 1) + "-" + year;
 
-                            startDate.setText(dateText);
+                                startDate.setText(dateText);
 
-                        }
-                    }, mYear, mMonth, mDay);
+                            }
+                        }, mYear, mMonth, mDay);
                 datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
                 datePickerDialog.show();
             }
@@ -166,10 +164,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
-
-                intent.putExtra("showCity", showCity);
-                intent.putExtra("showDate", showDate);
-                intent.putExtra("locale", locale);
+                String searchCriteria =
+                        "From:" + (!source.getText().toString().isEmpty() ? source.getText() : "NA")
+                        + "\nTo:" + (!destination.getText().toString().isEmpty() ? destination.getText() : "NA")
+                        + "\nLeaving On:" + (!startDate.getText().toString().isEmpty() ? startDate.getText() : "NA");
+                intent.putExtra("search_criteria", searchCriteria);
+                intent.putExtra("locale", "en");
+                AppTravelAction.setTouchEntities(
+                        source.getText().toString(),
+                        destination.getText().toString(),
+                        startDate.getText().toString()
+                );
                 startActivity(intent);
             }
         });
@@ -178,27 +183,16 @@ public class MainActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("SharedPref", MODE_PRIVATE);
         locale = sharedPreferences.getString("locale", "en");
-
-        showWelcomeDialog();
-    }
-
-    private void showWelcomeDialog() {
-        boolean showAgain = sharedPreferences.getBoolean("show_again", true);
-
-        if (showAgain) {
+        boolean ask = sharedPreferences.getBoolean("ask", true);
+        if (ask) {
             Dialog dialog = createNoLocationDialog();
             dialog.show();
         }
     }
 
     private void sendEmailIntent() {
-        Intent intent = new Intent(
-            Intent.ACTION_SENDTO,
-            Uri.fromParts(
-                "mailto", "42@slanglabs.in", null
-            )
-        );
-
+        Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                "mailto", "42@slanglabs.in", null));
         intent.putExtra(Intent.EXTRA_SUBJECT, "Hi, I tried your demo and have a feedback!");
         startActivity(Intent.createChooser(intent, "Send email..."));
     }
@@ -206,7 +200,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        source.setText("");
+        destination.setText("");
+        startDate.setText("");
+        resetCache();
         SlangBuddy.getBuiltinUI().show(this);
+        SlangBuddy.getBuiltinUI().clearIntentFiltersForDisplay();
     }
 
     @Override
@@ -224,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 // Save the preference
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("show_again", !isChecked);
+                editor.putBoolean("ask", !isChecked);
                 editor.apply();
             }
         });
@@ -280,22 +279,7 @@ public class MainActivity extends AppCompatActivity {
         boolean enable = !source.getText().toString().isEmpty() &&
                 !destination.getText().toString().isEmpty() &&
                 !startDate.getText().toString().isEmpty();
-        if (enable) {
-            showCity = source.getText().toString() + " to " +
-                    destination.getText().toString();
-            showDate = "for " + startDate.getText().toString();
-        }
         search.setEnabled(enable);
-    }
-
-    public void openDetailsActivity() {
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                search.performClick();
-            }
-        }, 1500);
     }
 
     public void setSource(String sourceText) {
@@ -308,11 +292,5 @@ public class MainActivity extends AppCompatActivity {
 
     public void setStartDate(String startDateText) {
         startDate.setText(startDateText);
-    }
-
-    public static void setHelpIntentsDisplay() {
-        Set<String> names = new ArraySet<>();
-        names.add(SlangInterface.SlangTravelAction.INTENT_SEARCH_TRAIN);
-        SlangBuddy.getBuiltinUI().filterIntentsForDisplay(names);
     }
 }

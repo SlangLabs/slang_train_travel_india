@@ -23,7 +23,7 @@ import in.slanglabs.platform.SlangBuddy;
 public class DetailsActivity extends AppCompatActivity {
 
     private LinearLayout english, hindi;
-    private TextView sort, updated, showCity, showDate, contactUs;
+    private TextView sort, updated, contactUs;
     private static String locale;
 
     @Override
@@ -32,9 +32,9 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details);
 
         Set<String> names = new ArraySet<>();
-        names.add(SlangInterface.SlangTravelAction.INTENT_FILTER_TRAINS);
+        names.add(SlangInterface.SlangTravelAction.INTENT_SEARCH_TRAIN);
         names.add(SlangInterface.SlangTravelAction.INTENT_SORT_TRAIN);
-        SlangBuddy.getBuiltinUI().filterIntentsForDisplay(names);
+        SlangBuddy.getBuiltinUI().setIntentFiltersForDisplay(names);
 
         contactUs = findViewById(R.id.contact_us);
         contactUs.setOnClickListener(new View.OnClickListener() {
@@ -53,17 +53,15 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
 
-        showCity = findViewById(R.id.details_showing_trains_cities);
-        showDate = findViewById(R.id.details_showing_trains_dates);
         sort = findViewById(R.id.details_sort_trains);
         updated = findViewById(R.id.details_search_updated);
         english = findViewById(R.id.details_help_english);
         hindi = findViewById(R.id.details_help_hindi);
 
-        String showTextCity = getIntent().getStringExtra("showCity");
-        String showTextDate = getIntent().getStringExtra("showDate");
-        showCity.setText(showTextCity);
-        showDate.setText(showTextDate);
+        String searchCriteria = getIntent().getStringExtra("search_criteria");
+        if (null != searchCriteria && !searchCriteria.isEmpty()) {
+            updateSearchCriteria(searchCriteria);
+        }
 
         locale = getIntent().getStringExtra("locale");
         setHelp();
@@ -126,21 +124,13 @@ public class DetailsActivity extends AppCompatActivity {
         updated.setVisibility(View.VISIBLE);
     }
 
-    public void hideUpdated() {
-        updated.setVisibility(View.GONE);
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(listener);
     }
 
-    public void setShowCity(String showCityText) {
-        showCity.setText(showCityText);
-    }
-
-    public void setShowDate(String showDateText) {
-        showDate.setText(showDateText);
+    public void updateSearchCriteria(String searchCriteria) {
+        ((TextView)findViewById(R.id.search_criteria)).setText(searchCriteria);
     }
 }
