@@ -1,4 +1,4 @@
-package in.slanglabs.slangtravel;
+package in.slanglabs.slangtrain;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

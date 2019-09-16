@@ -1,4 +1,4 @@
-package in.slanglabs.slangtravel;
+package in.slanglabs.slangtrain;
 
 import org.junit.Test;
 

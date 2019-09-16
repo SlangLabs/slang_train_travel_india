@@ -1,4 +1,4 @@
-package in.slanglabs.slangtravel;
+package in.slanglabs.slangtrain;
 
 import android.content.Intent;
 import android.util.Pair;
@@ -19,8 +19,8 @@ import in.slanglabs.platform.SlangIntent;
 import in.slanglabs.platform.SlangLocale;
 import in.slanglabs.platform.SlangSession;
 
-import static in.slanglabs.slangtravel.SlangInterface.SlangTravelAction.INTENT_SEARCH_TRAIN;
-import static in.slanglabs.slangtravel.SlangInterface.SlangTravelAction.INTENT_SORT_TRAIN;
+import static in.slanglabs.slangtrain.SlangInterface.SlangTravelAction.INTENT_SEARCH_TRAIN;
+import static in.slanglabs.slangtrain.SlangInterface.SlangTravelAction.INTENT_SORT_TRAIN;
 
 class AppTravelAction {
     private static Map<String, String> sEntities2PromptMap = new HashMap<>();
@@ -188,10 +188,26 @@ class AppTravelAction {
             switch (nextExpectedEntityName) {
                 case ENTITY_SOURCE:
                 case ENTITY_DESTINATION:
-                    result = processMissingEntity(nextExpectedEntityName, cityNameEntity, session);
+                    if(null != cityNameEntity && cityNameEntity.isResolved()) {
+                        result = processMissingSearchData(
+                                nextExpectedEntityName,
+                                cityNameEntity.getValue(),
+                                cityNameEntity.getPrompt().getQuestion(),
+                                session);
+                    } else {
+                        result = new Pair<>("That didn't fit the bill, can you please try again?", true);
+                    }
                     break;
                 case ENTITY_START_DATE:
-                    result = processMissingEntity(ENTITY_START_DATE, dateEntity, session);
+                    if (null != dateEntity && dateEntity.isResolved()) {
+                        result = processMissingSearchData(
+                                ENTITY_START_DATE,
+                                dateEntity.getValue(),
+                                dateEntity.getPrompt().getQuestion(),
+                                session);
+                    } else {
+                        result = new Pair<>("That didn't fit the bill, can you please try again?", true);
+                    }
                     break;
             }
         } else if (prevIntentName.equals(INTENT_SORT_TRAIN)) {
@@ -213,6 +229,29 @@ class AppTravelAction {
                 SlangInterface.startConversation(result.first, false);
             }
         }
+    }
+
+    static Pair<String, Boolean> processInvalidUtterance(String utterance, SlangSession session) {
+        Pair<String, Boolean> result = null;
+        if (prevIntentName.equals(INTENT_SEARCH_TRAIN)) {
+            switch (nextExpectedEntityName) {
+                case ENTITY_SOURCE:
+                case ENTITY_DESTINATION:
+                    result = processMissingSearchData(
+                            nextExpectedEntityName,
+                            utterance.trim(),
+                            "Sorry, we didn't understand it, can you please try again",
+                            session);
+                    break;
+            }
+        } else if (prevIntentName.equals(INTENT_SORT_TRAIN)) {
+            if (nextExpectedEntityName.equals(ENTITY_SORT_TYPE)) {
+                String sortTypePrompt = "Sorry, we missed that. Can you please try again";
+                result = sortTrains(utterance, sortTypePrompt, session);
+            }
+        }
+
+        return result;
     }
 
     private static final String[] engMissingSrcCityHints = {
@@ -338,21 +377,18 @@ class AppTravelAction {
         return sb.toString();
     }
 
-    private static Pair<String, Boolean> processMissingEntity(
+    private static Pair<String, Boolean> processMissingSearchData(
             String entityName,
-            SlangEntity fulfilledEntity,
+            String entityValue,
+            String prompt,
             SlangSession session
     ) {
-        if (null != fulfilledEntity && fulfilledEntity.isResolved()) {
-            sEntities2ValuesMap.put(entityName, fulfilledEntity.getValue());
-            sEntities2PromptMap.put(
-                    entityName,
-                    "Sorry, we missed that. " + fulfilledEntity.getPrompt().getQuestion()
-            );
-            return searchTrains(session);
-        } else {
-            return new Pair<>("That didn't fit the bill, can you please try again?", true);
-        }
+        sEntities2ValuesMap.put(entityName, entityValue);
+        sEntities2PromptMap.put(
+                entityName,
+                "Sorry, we missed that. " + prompt
+        );
+        return searchTrains(session);
     }
 
     private static String getSpeakableTime(String time) {

@@ -1,4 +1,4 @@
-package in.slanglabs.slangtravel;
+package in.slanglabs.slangtrain;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("in.slanglabs.slangtravel", appContext.getPackageName());
+        assertEquals("in.slanglabs.slangtrain", appContext.getPackageName());
     }
 }

@@ -1,4 +1,4 @@
-package in.slanglabs.slangtravel;
+package in.slanglabs.slangtrain;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -29,7 +29,7 @@ import java.util.Calendar;
 
 import in.slanglabs.platform.SlangBuddy;
 
-import static in.slanglabs.slangtravel.AppTravelAction.resetCache;
+import static in.slanglabs.slangtrain.AppTravelAction.resetCache;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package in.slanglabs.slangtravel;
+package in.slanglabs.slangtrain;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.util.Pair;
 import android.widget.Toast;
 
 import java.util.HashMap;
@@ -20,12 +21,14 @@ import in.slanglabs.platform.SlangIntent;
 import in.slanglabs.platform.SlangLocale;
 import in.slanglabs.platform.SlangSession;
 import in.slanglabs.platform.action.SlangIntentAction;
+import in.slanglabs.platform.action.SlangUtteranceAction;
 import in.slanglabs.platform.prompt.SlangMessage;
 
-import static in.slanglabs.slangtravel.AppTravelAction.processGatherMissingData;
-import static in.slanglabs.slangtravel.AppTravelAction.processSearchTrain;
-import static in.slanglabs.slangtravel.AppTravelAction.processSortTrains;
-import static in.slanglabs.slangtravel.AppTravelAction.resetCache;
+import static in.slanglabs.slangtrain.AppTravelAction.processGatherMissingData;
+import static in.slanglabs.slangtrain.AppTravelAction.processInvalidUtterance;
+import static in.slanglabs.slangtrain.AppTravelAction.processSearchTrain;
+import static in.slanglabs.slangtrain.AppTravelAction.processSortTrains;
+import static in.slanglabs.slangtrain.AppTravelAction.resetCache;
 
 class SlangInterface {
 
@@ -44,6 +47,7 @@ class SlangInterface {
                     .setAPIKey(API_KEY)
                     .setListener(new BuddyListener(activity.getApplicationContext()))
                     .setIntentAction(sAppActionHandler)
+                    .setUtteranceAction(new UtteranceHandler())
                     .setRequestedLocales(new HashSet<Locale>() {{
                         add(SlangLocale.LOCALE_ENGLISH_IN);
                         add(SlangLocale.LOCALE_HINDI_IN);
@@ -202,6 +206,34 @@ class SlangInterface {
             }
 
             return Status.SUCCESS;
+        }
+    }
+
+    private static class UtteranceHandler implements SlangUtteranceAction {
+        @Override
+        public void onUtteranceDetected(String s, SlangSession slangSession) {
+            //NOP
+        }
+
+        @Override
+        public Status onUtteranceUnresolved(String s, SlangSession slangSession) {
+            final Pair<String, Boolean> result = processInvalidUtterance(s, slangSession);
+            if (null != result && null != result.first && !result.first.isEmpty()) {
+                try {
+                    HashMap<Locale, String> strings = new HashMap<>();
+                    strings.put(SlangLocale.LOCALE_ENGLISH_IN, result.first);
+                    strings.put(SlangLocale.LOCALE_HINDI_IN, result.first);
+                    SlangBuddy.getClarificationMessage().overrideMessages(strings);
+                    if (null != result.second && result.second) {
+                        startConversation(result.first, false);
+                    }
+                    return Status.SUCCESS;
+                } catch (SlangBuddy.UninitializedUsageException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            return Status.FAILURE;
         }
     }
 }
