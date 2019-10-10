@@ -66,6 +66,38 @@ class SlangInterface {
         }
     }
 
+    public static class SlangTravelAction implements SlangIntentAction {
+
+        static final String INTENT_SEARCH_TRAIN = "search_train";
+        static final String INTENT_SORT_TRAIN = "sort_train";
+        static final String INTENT_GATHER_MISSING_DATA = "gather_missing_data";
+        static final String INTENT_HELP = "slang_help";
+
+        SlangTravelAction() {
+            resetCache();
+        }
+
+        @Override
+        public Status action(SlangIntent intent, SlangSession session) {
+            switch (intent.getName()) {
+                case INTENT_SEARCH_TRAIN:
+                    processSearchTrain(intent, session);
+                    break;
+                case INTENT_SORT_TRAIN:
+                    processSortTrains(intent, session);
+                    break;
+                case INTENT_GATHER_MISSING_DATA:
+                    processGatherMissingData(intent, session);
+                    break;
+                case INTENT_HELP:
+                    intent.getCompletionStatement().overrideAffirmative("Please try one of the options mentioned on the screen");
+                    break;
+            }
+
+            return Status.SUCCESS;
+        }
+    }
+
     static void startConversation(String msg, boolean isSpoken) {
         try {
             HashMap<Locale, String> strings = new HashMap<>();
@@ -168,37 +200,6 @@ class SlangInterface {
         }
     }
 
-    public static class SlangTravelAction implements SlangIntentAction {
-
-        static final String INTENT_SEARCH_TRAIN = "search_train";
-        static final String INTENT_SORT_TRAIN = "sort_train";
-        static final String INTENT_GATHER_MISSING_DATA = "gather_missing_data";
-        static final String INTENT_HELP = "slang_help";
-
-        SlangTravelAction() {
-            resetCache();
-        }
-
-        @Override
-        public Status action(SlangIntent intent, SlangSession session) {
-            switch (intent.getName()) {
-                case INTENT_SEARCH_TRAIN:
-                    processSearchTrain(intent, session);
-                    break;
-                case INTENT_SORT_TRAIN:
-                    processSortTrains(intent, session);
-                    break;
-                case INTENT_GATHER_MISSING_DATA:
-                    processGatherMissingData(intent, session);
-                    break;
-                case INTENT_HELP:
-                    intent.getCompletionStatement().overrideAffirmative("Please try one of the options mentioned on the screen");
-                    break;
-            }
-
-            return Status.SUCCESS;
-        }
-    }
 
     private static class UtteranceHandler implements SlangUtteranceAction {
         @Override
