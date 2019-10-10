@@ -55,7 +55,6 @@ class SlangInterface {
                     .setDefaultLocale(SlangLocale.LOCALE_ENGLISH_IN)
                     // change env to production when the buddy is published to production
                     .setEnvironment(SlangBuddy.Environment.STAGING)
-                    .setConfigOverrides(getConfigOverrides())
                     .setStartActivity(activity)
                     .build();
             SlangBuddy.initialize(options);
@@ -65,14 +64,6 @@ class SlangInterface {
         } catch (SlangBuddy.InsufficientPrivilegeException e) {
             e.printStackTrace();
         }
-    }
-
-    private static Map<String, Object> getConfigOverrides() {
-        HashMap<String, Object> config = new HashMap<>();
-
-        config.put("internal.subsystems.asr.force_cloud_asr", true);
-
-        return config;
     }
 
     static void startConversation(String msg, boolean isSpoken) {
