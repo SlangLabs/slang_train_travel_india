@@ -107,6 +107,8 @@ class SlangInterface {
             SlangBuddy.startConversation(message, isSpoken);
         } catch (SlangBuddy.UninitializedUsageException e) {
             e.printStackTrace();
+        } catch (SlangBuddy.SlangDisabledException e) {
+            e.printStackTrace();
         }
     }
 
